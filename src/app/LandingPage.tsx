@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react'
+import { Analytics } from './Analytics'
 
 const productSignals = [
   ['01', 'Lead capture', 'Bring phone, walk-in, website and WhatsApp leads into one operating surface.'],
@@ -13,9 +14,20 @@ const principles = [
   'Local-first AI compatibility with Ollama and provider-neutral adapters.',
 ]
 
+type Consent = 'unset' | 'accepted' | 'rejected'
+
 export function LandingPage() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [consent, setConsent] = useState<Consent>(() => {
+    if (typeof window === 'undefined') return 'unset'
+    return (window.localStorage.getItem('mw-cookie-consent') as Consent) || 'unset'
+  })
+
+  const chooseConsent = (value: Exclude<Consent, 'unset'>) => {
+    window.localStorage.setItem('mw-cookie-consent', value)
+    setConsent(value)
+  }
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -33,6 +45,8 @@ export function LandingPage() {
 
   return (
     <main id="main-content" className="landing-shell">
+      <Analytics enabled={consent === 'accepted'} />
+
       <header className="site-nav" aria-label="Primary navigation">
         <a href="#top" className="brand-mark" aria-label="MW.AI home">
           MW<span>.AI</span>
@@ -149,12 +163,12 @@ export function LandingPage() {
             <div className="form-row">
               <input id="email" name="email" type="email" autoComplete="email" value={email} onChange={(event) => { setEmail(event.target.value); setStatus('idle') }} placeholder="you@company.com" aria-invalid={status === 'error'} />
               <button className="button button-primary" type="submit" disabled={status === 'loading'}>
-                {status === 'loading' ? 'Sending…' : 'Request access'}
+                {status === 'loading' ? 'Validating…' : 'Request access'}
               </button>
             </div>
             <div className="form-status" role="status" aria-live="polite">
               {status === 'error' && 'Enter a valid email address.'}
-              {status === 'success' && 'Request captured locally. Connect the production inbox/webhook before launch.'}
+              {status === 'success' && 'Demo form is wired for validation. Connect the production inbox/webhook before accepting live requests.'}
             </div>
           </form>
           <div className="contact-links">
@@ -169,6 +183,13 @@ export function LandingPage() {
         <div className="footer-links"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/sitemap.xml">Sitemap</a></div>
         <small>© 2026 MW.AI</small>
       </footer>
+
+      {consent === 'unset' && (
+        <div className="cookie-banner" role="dialog" aria-label="Analytics cookie preferences">
+          <div><strong>Privacy controls</strong><p>MW.AI can use optional analytics to understand site usage. Essential functionality works without it.</p></div>
+          <div className="cookie-actions"><button type="button" onClick={() => chooseConsent('rejected')}>Reject</button><button type="button" onClick={() => chooseConsent('accepted')}>Allow analytics</button></div>
+        </div>
+      )}
 
       <a className="sticky-mobile-cta" href="#contact">Request a demo ↗</a>
     </main>
