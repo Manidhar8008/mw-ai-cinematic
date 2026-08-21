@@ -11,8 +11,7 @@ export function useTimeline() {
     cancelAnimationFrame(rafRef.current)
     rafRef.current = requestAnimationFrame(() => {
       const scrollY = window.scrollY || window.pageYOffset
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-      const progress = maxScroll > 0 ? scrollY / maxScroll : 0
+      const progress = Math.min(1, Math.max(0, scrollY / TOTAL_SCROLL_HEIGHT))
       setState(getTimelineState(progress))
     })
   }, [])
