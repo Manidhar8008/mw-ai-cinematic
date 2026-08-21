@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="g" cx="75%" cy="12%" r="70%">
+      <stop offset="0" stop-color="#8b0000" stop-opacity=".75"/>
+      <stop offset=".45" stop-color="#250000" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#050505" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#050505"/>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <g fill="none" stroke="#fff" stroke-opacity=".08">
+    <path d="M0 510H1200M0 550H1200M0 590H1200"/>
+    <path d="M80 0V630M160 0V630M240 0V630M320 0V630M400 0V630"/>
+  </g>
+  <text x="76" y="150" fill="#d21f1f" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="5">MW.AI</text>
+  <text x="76" y="260" fill="#f5f5f2" font-family="Arial, sans-serif" font-size="74" font-weight="700">Business</text>
+  <text x="76" y="330" fill="#f5f5f2" font-family="Arial, sans-serif" font-size="74" font-weight="700">intelligence</text>
+  <text x="76" y="400" fill="#f5f5f2" font-family="Arial, sans-serif" font-size="74" font-weight="700">infrastructure.</text>
+  <text x="76" y="472" fill="#a8a8a8" font-family="Arial, sans-serif" font-size="26">Leads · follow-ups · WhatsApp · automation · AI</text>
+  <text x="76" y="548" fill="#666" font-family="monospace" font-size="18">mw.ai</text>
+</svg>
