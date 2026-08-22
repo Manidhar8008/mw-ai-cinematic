@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 type LiveEvent = {
   time: string
@@ -21,18 +21,20 @@ function stamp() {
 export function LiveSystem() {
   const [index, setIndex] = useState(0)
   const [events, setEvents] = useState<LiveEvent[]>([])
+  const indexRef = useRef(0)
 
   useEffect(() => {
     const push = () => {
-      const next = demoEvents[index % demoEvents.length]
+      const next = demoEvents[indexRef.current % demoEvents.length]
       setEvents((current) => [{ ...next, time: stamp() }, ...current].slice(0, 4))
-      setIndex((value) => value + 1)
+      indexRef.current += 1
+      setIndex(indexRef.current)
     }
 
     push()
     const id = window.setInterval(push, 2200)
     return () => window.clearInterval(id)
-  }, [index])
+  }, [])
 
   const status = useMemo(() => demoEvents[index % demoEvents.length].label, [index])
 
