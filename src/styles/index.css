@@ -3,3 +3,5 @@
 @import './theme.css';
 @import './landing.css';
 @import './cookie.css';
+@import '../app/components/CinematicScene/wireframe.css';
+@import '../app/components/CinematicScene/LiveSystem.css';
