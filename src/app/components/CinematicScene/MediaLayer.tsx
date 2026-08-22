@@ -18,7 +18,7 @@ export function MediaLayer({ state }: Props) {
           loop
           playsInline
           preload="metadata"
-          poster="/media/mw-ai-poster.jpg"
+          poster="/media/mw-ai-poster.svg"
           onError={() => setVideoFailed(true)}
         >
           <source src="/media/mw-ai-intro.webm" type="video/webm" />
