@@ -4,6 +4,9 @@ import { SkydiverCanvas } from './renderers/SkydiverCanvas'
 import { AtmosphereCanvas } from './renderers/AtmosphereCanvas'
 import { DigitalCanvas } from './renderers/DigitalCanvas'
 import { MWLogo } from './renderers/MWLogo'
+import { MediaLayer } from './MediaLayer'
+import { WireframeLayer } from './WireframeLayer'
+import { LiveSystem } from './LiveSystem'
 
 export function CinematicScene() {
   const { state, scrollHeight } = useTimeline()
@@ -23,7 +26,7 @@ export function CinematicScene() {
           position: 'fixed',
           inset: 0,
           overflow: 'hidden',
-          background: '#000',
+          background: '#020208',
           opacity: active ? 1 : 0,
           visibility: active ? 'visible' : 'hidden',
           pointerEvents: active ? 'auto' : 'none',
@@ -31,10 +34,19 @@ export function CinematicScene() {
           zIndex: 20,
         }}
       >
+        <MediaLayer state={state} />
         <AtmosphereCanvas state={state} />
         <DigitalCanvas state={state} />
         <SkydiverCanvas state={state} />
+        <WireframeLayer state={state} />
         <MWLogo state={state} />
+        <LiveSystem />
+
+        <div className="cinematic-copy" aria-hidden="true">
+          <span className="eyebrow">MW.AI / INTELLIGENCE INFRASTRUCTURE</span>
+          <strong>{state.progress < 0.38 ? 'YOUR BUSINESS IS EVERYWHERE.' : state.progress < 0.72 ? 'MW.AI REMEMBERS.' : 'THEN IT ACTS.'}</strong>
+          <small>{state.progress < 0.38 ? 'WhatsApp · Phone · Website · Operations' : state.progress < 0.72 ? 'Memory · Context · Workflow' : 'AI · Automation · Execution'}</small>
+        </div>
 
         {active && (
           <button className="cinematic-skip" type="button" onClick={skipIntro}>
@@ -43,27 +55,8 @@ export function CinematicScene() {
         )}
 
         {state.progress > 0.02 && state.progress < 0.92 && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 32,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 8,
-              opacity: Math.min(1, (0.92 - state.progress) * 8) * Math.min(1, state.progress * 12),
-              transition: 'opacity 0.3s',
-            }}
-          >
-            <div
-              style={{
-                width: 1,
-                height: 40,
-                background: 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.4))',
-              }}
-            />
+          <div className="cinematic-scroll-hint">
+            <div />
             <span className="cinematic-scroll-label">Scroll to enter</span>
           </div>
         )}
